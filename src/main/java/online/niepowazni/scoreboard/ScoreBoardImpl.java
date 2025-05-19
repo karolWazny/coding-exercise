@@ -9,4 +9,9 @@ public class ScoreBoardImpl implements ScoreBoard {
     public List<Object> getSummary() {
         return new ArrayList<>();
     }
+
+    @Override
+    public String formatted() {
+        return "";
+    }
 }
