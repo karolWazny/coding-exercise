@@ -4,6 +4,6 @@ import java.util.List;
 
 public interface ScoreBoard {
     List<Game> getSummary();
-    String formatted();
+    String formattedSummary();
     void startGame(String homeTeam, String awayTeam);
 }

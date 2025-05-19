@@ -13,7 +13,7 @@ public class ScoreBoardImpl implements ScoreBoard {
     }
 
     @Override
-    public String formatted() {
+    public String formattedSummary() {
         return "";
     }
 

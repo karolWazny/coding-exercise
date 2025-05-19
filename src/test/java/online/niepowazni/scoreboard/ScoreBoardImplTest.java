@@ -26,7 +26,7 @@ public class ScoreBoardImplTest {
     @Test
     @DisplayName("Fresh score board is formatted as empty string")
     public void formatEmptyBoardTest() {
-        Assertions.assertEquals("", scoreBoard.formatted());
+        Assertions.assertEquals("", scoreBoard.formattedSummary());
     }
 
     @Test
