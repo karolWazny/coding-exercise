@@ -20,6 +20,6 @@ public class Game {
     }
 
     public String formatted() {
-        return "Sweden 0 - Denmark 0";
+        return "%s 0 - %s 0".formatted(homeTeam, awayTeam);
     }
 }
