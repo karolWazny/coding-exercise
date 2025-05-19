@@ -25,5 +25,15 @@ public class GameTest {
         Assertions.assertEquals(0, game.getAwayTeamScore());
     }
 
+    @Test
+    @DisplayName("Game should be displayed in specific format")
+    public void gameShouldBeFormattedForDisplay() {
+        Game game = Game.builder()
+                .homeTeam("Sweden")
+                .awayTeam("Denmark")
+                .build();
+
+        Assertions.assertEquals("Sweden 0 - Denmark 0", game.formatted());
+    }
 
 }

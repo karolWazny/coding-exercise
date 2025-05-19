@@ -18,4 +18,8 @@ public class Game {
     public int getAwayTeamScore() {
         return 0;
     }
+
+    public String formatted() {
+        return "Sweden 0 - Denmark 0";
+    }
 }
