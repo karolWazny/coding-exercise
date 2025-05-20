@@ -6,6 +6,7 @@ import online.niepowazni.scoreboard.dto.TeamPair;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class ScoreBoardImpl implements ScoreBoard {
 
@@ -20,12 +21,15 @@ public class ScoreBoardImpl implements ScoreBoard {
 
     @Override
     public String formattedSummary() {
-        List<String> lines = new ArrayList<>(games.size());
-        int lineNumber = 1;
-        for(Game game : games) {
-            lines.add("%d. %s".formatted(lineNumber, game.formatted()));
-            lineNumber++;
-        }
+        List<String> immutableLines = games.stream()
+                .map(Game::formatted)
+                .toList();
+        List<String> lines = new ArrayList<>(immutableLines);
+        IntStream.range(0, lines.size())
+                .forEach(index -> {
+                    String indexedValue = "%d. %s".formatted(index + 1, lines.get(index));
+                    lines.set(index, indexedValue);
+                });
         return String.join("\n", lines);
     }
 
