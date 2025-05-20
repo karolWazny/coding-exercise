@@ -10,7 +10,7 @@
 # Assumptions
 - Teams in Football World Cup are uniquely identified by their names, which are case-sensitive.
 - Games on the score board are uniquely identified by a pair of team names.
-  - the identity of the pair does not depend on the order of the teams, meaning 'Poland - Germany' is the same as 'Germany - Poland'
+  - the identity of the pair does depend on the order of the teams, meaning 'Poland - Germany' is not the same as 'Germany - Poland'
 - One team cannot play in two different games simultaneously.
 - The team cannot play in a game against itself.
 - The summary is returned in two forms:

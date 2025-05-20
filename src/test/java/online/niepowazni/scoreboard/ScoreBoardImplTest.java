@@ -1,5 +1,8 @@
 package online.niepowazni.scoreboard;
 
+import online.niepowazni.scoreboard.dto.GameDto;
+import online.niepowazni.scoreboard.dto.Score;
+import online.niepowazni.scoreboard.dto.TeamPair;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -66,5 +69,21 @@ public class ScoreBoardImplTest {
         Assertions.assertEquals(1, scoreBoard.getSummary().size());
         Assertions.assertEquals("Sweden", scoreBoard.getSummary().get(0).homeTeam());
         Assertions.assertEquals("Denmark", scoreBoard.getSummary().get(0).awayTeam());
+    }
+
+    @Test
+    @DisplayName("Scoreboard allows updating match score")
+    public void updateMatchScoreTest() {
+        scoreBoard.startGame("Poland", "Germany");
+        scoreBoard.updateScore(TeamPair.builder()
+                        .home("Poland")
+                        .away("Germany")
+                        .build(),
+                Score.builder()
+                        .home(2)
+                        .away(1)
+                        .build());
+        Assertions.assertEquals(2, scoreBoard.getSummary().get(0).homeTeamScore());
+        Assertions.assertEquals(1, scoreBoard.getSummary().get(0).awayTeamScore());
     }
 }
