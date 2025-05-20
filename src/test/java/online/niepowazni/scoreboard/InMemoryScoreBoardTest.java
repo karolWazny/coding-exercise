@@ -10,13 +10,13 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-public class ScoreBoardImplTest {
+public class InMemoryScoreBoardTest {
 
     private ScoreBoard scoreBoard;
 
     @BeforeEach
     public void prepareEmptyBoard() {
-        scoreBoard = new ScoreBoardImpl();
+        scoreBoard = new InMemoryScoreBoard();
     }
 
     @Test

@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class ScoreBoardImpl implements ScoreBoard {
+class InMemoryScoreBoard implements ScoreBoard {
 
     private final List<Game> games = new ArrayList<>();
 

@@ -12,7 +12,7 @@ import java.util.Objects;
 @Getter
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Game implements Comparable<Game> {
+class Game implements Comparable<Game> {
 
     final String homeTeam;
     final String awayTeam;

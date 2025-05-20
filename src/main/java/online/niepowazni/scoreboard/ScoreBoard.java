@@ -15,4 +15,8 @@ public interface ScoreBoard {
     void finishGame(String homeTeam, String awayTeam);
 
     void updateScore(TeamPair teams, Score score);
+
+    static ScoreBoard getInstance() {
+        return new InMemoryScoreBoard();
+    }
 }
