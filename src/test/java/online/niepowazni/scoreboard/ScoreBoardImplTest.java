@@ -21,6 +21,7 @@ public class ScoreBoardImplTest {
     public void freshScoreBoardIsEmpty() {
         List<GameDto> games = scoreBoard.getSummary();
         Assertions.assertNotNull(games);
+        Assertions.assertEquals(0, games.size());
     }
 
     @Test
@@ -38,12 +39,21 @@ public class ScoreBoardImplTest {
     }
 
     @Test
-    @DisplayName("ScoreBoard returns games in a summary")
+    @DisplayName("ScoreBoard returns started games in a summary")
     public void scoreBoardReturnsGames() {
         scoreBoard.startGame("Poland", "Germany");
         List<GameDto> games = scoreBoard.getSummary();
         GameDto game = games.get(0);
         Assertions.assertEquals("Poland", game.homeTeam());
         Assertions.assertEquals("Germany", game.awayTeam());
+    }
+
+    @Test
+    @DisplayName("ScoreBoard does not return finished games in the summary")
+    public void testStartAndFinishGame() {
+        scoreBoard.startGame("Poland", "Germany");
+        scoreBoard.finishGame("Poland", "Germany");
+        Assertions.assertEquals("", scoreBoard.formattedSummary());
+        Assertions.assertEquals(0, scoreBoard.getSummary().size());
     }
 }

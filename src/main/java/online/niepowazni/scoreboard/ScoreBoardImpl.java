@@ -29,4 +29,9 @@ public class ScoreBoardImpl implements ScoreBoard {
                 .awayTeam(awayTeam)
                 .build());
     }
+
+    @Override
+    public void finishGame(String homeTeam, String awayTeam) {
+        games = new ArrayList<>();
+    }
 }
