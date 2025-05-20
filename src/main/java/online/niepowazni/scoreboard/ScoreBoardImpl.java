@@ -2,6 +2,7 @@ package online.niepowazni.scoreboard;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ScoreBoardImpl implements ScoreBoard {
 
@@ -32,6 +33,6 @@ public class ScoreBoardImpl implements ScoreBoard {
 
     @Override
     public void finishGame(String homeTeam, String awayTeam) {
-        games = new ArrayList<>();
+        games.removeIf(game -> Objects.equals(homeTeam, game.getHomeTeam()) && Objects.equals(awayTeam, game.getAwayTeam()));
     }
 }

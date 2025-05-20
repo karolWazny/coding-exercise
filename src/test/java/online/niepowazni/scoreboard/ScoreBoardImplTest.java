@@ -56,4 +56,15 @@ public class ScoreBoardImplTest {
         Assertions.assertEquals("", scoreBoard.formattedSummary());
         Assertions.assertEquals(0, scoreBoard.getSummary().size());
     }
+
+    @Test
+    @DisplayName("ScoreBoard does not return finished games in the summary, unfinished games remain")
+    public void startTwoGamesFinishOneGame() {
+        scoreBoard.startGame("Poland", "Germany");
+        scoreBoard.startGame("Sweden", "Denmark");
+        scoreBoard.finishGame("Poland", "Germany");
+        Assertions.assertEquals(1, scoreBoard.getSummary().size());
+        Assertions.assertEquals("Sweden", scoreBoard.getSummary().get(0).homeTeam());
+        Assertions.assertEquals("Denmark", scoreBoard.getSummary().get(0).awayTeam());
+    }
 }
