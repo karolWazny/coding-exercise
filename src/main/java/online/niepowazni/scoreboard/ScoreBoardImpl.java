@@ -8,8 +8,13 @@ public class ScoreBoardImpl implements ScoreBoard {
     private List<Game> games = new ArrayList<>();
 
     @Override
-    public List<Game> getSummary() {
-        return games;
+    public List<GameDto> getSummary() {
+        return games.stream()
+                .map(game -> GameDto.builder()
+                        .awayTeam(game.getAwayTeam())
+                        .homeTeam(game.getHomeTeam())
+                        .build())
+                .toList();
     }
 
     @Override
