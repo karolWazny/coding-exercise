@@ -72,7 +72,7 @@ public class ScoreBoardImplTest {
     }
 
     @Test
-    @DisplayName("Scoreboard allows updating match score")
+    @DisplayName("Scoreboard allows updating score of a single match")
     public void updateMatchScoreTest() {
         scoreBoard.startGame("Poland", "Germany");
         scoreBoard.updateScore(TeamPair.builder()
@@ -85,5 +85,22 @@ public class ScoreBoardImplTest {
                         .build());
         Assertions.assertEquals(2, scoreBoard.getSummary().get(0).homeTeamScore());
         Assertions.assertEquals(1, scoreBoard.getSummary().get(0).awayTeamScore());
+    }
+
+    @Test
+    @DisplayName("Only one match score is updated")
+    public void updateOnlyOneMatchScoreTest() {
+        scoreBoard.startGame("Poland", "Germany");
+        scoreBoard.startGame("Sweden", "Denmark");
+        scoreBoard.updateScore(TeamPair.builder()
+                        .home("Poland")
+                        .away("Germany")
+                        .build(),
+                Score.builder()
+                        .home(2)
+                        .away(1)
+                        .build());
+        Assertions.assertEquals(0, scoreBoard.getSummary().get(1).homeTeamScore());
+        Assertions.assertEquals(0, scoreBoard.getSummary().get(1).awayTeamScore());
     }
 }

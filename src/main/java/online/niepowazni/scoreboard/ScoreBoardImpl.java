@@ -6,21 +6,15 @@ import online.niepowazni.scoreboard.dto.TeamPair;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class ScoreBoardImpl implements ScoreBoard {
 
-    private List<Game> games = new ArrayList<>();
+    private final List<Game> games = new ArrayList<>();
 
     @Override
     public List<GameDto> getSummary() {
         return games.stream()
-                .map(game -> GameDto.builder()
-                        .awayTeam(game.getAwayTeam())
-                        .homeTeam(game.getHomeTeam())
-                        .homeTeamScore(game.getHomeScore())
-                        .awayTeamScore(game.getAwayScore())
-                        .build())
+                .map(Game::toGameDto)
                 .toList();
     }
 
@@ -39,11 +33,14 @@ public class ScoreBoardImpl implements ScoreBoard {
 
     @Override
     public void finishGame(String homeTeam, String awayTeam) {
-        games.removeIf(game -> Objects.equals(homeTeam, game.getHomeTeam()) && Objects.equals(awayTeam, game.getAwayTeam()));
+        games.removeIf(game -> game.isMatchBetween(homeTeam, awayTeam));
     }
 
     @Override
     public void updateScore(TeamPair teams, Score score) {
-        games.forEach(game -> game.setScore(score));
+        games
+                .stream()
+                .filter(game -> game.isMatchBetween(teams.home(), teams.away()))
+                .forEach(game -> game.setScore(score));
     }
 }
