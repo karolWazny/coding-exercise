@@ -1,4 +1,4 @@
-package online.niepowazni.scoreboard;
+package online.niepowazni.scoreboard.dto;
 
 import lombok.Builder;
 

@@ -15,8 +15,8 @@ public class GameTest {
                 .homeTeam("Sweden")
                 .awayTeam("Denmark")
                 .build();
-        Assertions.assertEquals(0, game.getHomeTeamScore());
-        Assertions.assertEquals(0, game.getAwayTeamScore());
+        Assertions.assertEquals(0, game.getHomeScore());
+        Assertions.assertEquals(0, game.getAwayScore());
     }
 
     @ParameterizedTest

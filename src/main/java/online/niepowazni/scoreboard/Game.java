@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
+import online.niepowazni.scoreboard.dto.Score;
 
 @Getter
 @Builder
@@ -13,15 +14,15 @@ public class Game {
     final String homeTeam;
     final String awayTeam;
 
-    public int getHomeTeamScore() {
-        return 0;
-    }
-
-    public int getAwayTeamScore() {
-        return 0;
-    }
+    int homeScore;
+    int awayScore;
 
     public String formatted() {
         return "%s 0 - %s 0".formatted(homeTeam, awayTeam);
+    }
+
+    public void setScore(Score score) {
+        homeScore = score.home();
+        awayScore = score.away();
     }
 }
