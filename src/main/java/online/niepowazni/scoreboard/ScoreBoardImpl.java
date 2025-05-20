@@ -20,7 +20,13 @@ public class ScoreBoardImpl implements ScoreBoard {
 
     @Override
     public String formattedSummary() {
-        return "";
+        List<String> lines = new ArrayList<>(games.size());
+        int lineNumber = 1;
+        for(Game game : games) {
+            lines.add("%d. %s".formatted(lineNumber, game.formatted()));
+            lineNumber++;
+        }
+        return String.join("\n", lines);
     }
 
     @Override

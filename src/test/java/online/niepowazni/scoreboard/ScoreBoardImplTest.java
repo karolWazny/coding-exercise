@@ -34,64 +34,46 @@ public class ScoreBoardImplTest {
     }
 
     @Test
-    @DisplayName("New game can be added to score board")
-    public void startGameTest() {
-        scoreBoard.startGame("Poland", "Germany");
-        List<GameDto> games = scoreBoard.getSummary();
-        Assertions.assertEquals(1, games.size());
-    }
-
-    @Test
     @DisplayName("ScoreBoard returns started games in a summary")
     public void scoreBoardReturnsGames() {
         scoreBoard.startGame("Poland", "Germany");
-        List<GameDto> games = scoreBoard.getSummary();
-        GameDto game = games.get(0);
-        Assertions.assertEquals("Poland", game.homeTeam());
-        Assertions.assertEquals("Germany", game.awayTeam());
-    }
-
-    @Test
-    @DisplayName("ScoreBoard does not return finished games in the summary")
-    public void testStartAndFinishGame() {
-        scoreBoard.startGame("Poland", "Germany");
-        scoreBoard.finishGame("Poland", "Germany");
-        Assertions.assertEquals("", scoreBoard.formattedSummary());
-        Assertions.assertEquals(0, scoreBoard.getSummary().size());
+        Assertions.assertEquals(List.of(
+                GameDto.builder()
+                        .homeTeam("Poland")
+                        .homeTeamScore(0)
+                        .awayTeam("Germany")
+                        .awayTeamScore(0)
+                        .build()
+        ), scoreBoard.getSummary());
     }
 
     @Test
     @DisplayName("ScoreBoard does not return finished games in the summary, unfinished games remain")
     public void startTwoGamesFinishOneGame() {
+        // given
         scoreBoard.startGame("Poland", "Germany");
         scoreBoard.startGame("Sweden", "Denmark");
+        // when
         scoreBoard.finishGame("Poland", "Germany");
-        Assertions.assertEquals(1, scoreBoard.getSummary().size());
-        Assertions.assertEquals("Sweden", scoreBoard.getSummary().get(0).homeTeam());
-        Assertions.assertEquals("Denmark", scoreBoard.getSummary().get(0).awayTeam());
+        // then
+        Assertions.assertEquals(List.of(
+                GameDto.builder()
+                        .homeTeam("Sweden")
+                        .homeTeamScore(0)
+                        .awayTeam("Denmark")
+                        .awayTeamScore(0)
+                        .build()
+        ), scoreBoard.getSummary());
     }
 
     @Test
-    @DisplayName("Scoreboard allows updating score of a single match")
-    public void updateMatchScoreTest() {
-        scoreBoard.startGame("Poland", "Germany");
-        scoreBoard.updateScore(TeamPair.builder()
-                        .home("Poland")
-                        .away("Germany")
-                        .build(),
-                Score.builder()
-                        .home(2)
-                        .away(1)
-                        .build());
-        Assertions.assertEquals(2, scoreBoard.getSummary().get(0).homeTeamScore());
-        Assertions.assertEquals(1, scoreBoard.getSummary().get(0).awayTeamScore());
-    }
-
-    @Test
-    @DisplayName("Only one match score is updated")
+    @DisplayName("Match score can be updated")
     public void updateOnlyOneMatchScoreTest() {
+        // given
         scoreBoard.startGame("Poland", "Germany");
         scoreBoard.startGame("Sweden", "Denmark");
+
+        // when
         scoreBoard.updateScore(TeamPair.builder()
                         .home("Poland")
                         .away("Germany")
@@ -100,7 +82,38 @@ public class ScoreBoardImplTest {
                         .home(2)
                         .away(1)
                         .build());
-        Assertions.assertEquals(0, scoreBoard.getSummary().get(1).homeTeamScore());
-        Assertions.assertEquals(0, scoreBoard.getSummary().get(1).awayTeamScore());
+
+        // then
+        Assertions.assertEquals(List.of(
+                GameDto.builder()
+                        .homeTeamScore(2)
+                        .awayTeamScore(1)
+                        .homeTeam("Poland")
+                        .awayTeam("Germany")
+                        .build(),
+                GameDto.builder()
+                        .homeTeam("Sweden")
+                        .homeTeamScore(0)
+                        .awayTeam("Denmark")
+                        .awayTeamScore(0)
+                        .build()
+        ), scoreBoard.getSummary());
+    }
+
+    @Test
+    @DisplayName("Display formatted summary with one game")
+    public void formattedSummaryOneGame() {
+        scoreBoard.startGame("Poland", "Germany");
+        String summary = scoreBoard.formattedSummary();
+        Assertions.assertEquals("1. Poland 0 - Germany 0", summary);
+    }
+
+    @Test
+    @DisplayName("Display formatted summary with two games")
+    public void formattedSummaryTwoGames() {
+        scoreBoard.startGame("Poland", "Germany");
+        scoreBoard.startGame("Sweden", "Denmark");
+        String summary = scoreBoard.formattedSummary();
+        Assertions.assertEquals("1. Poland 0 - Germany 0\n2. Sweden 0 - Denmark 0", summary);
     }
 }
