@@ -7,6 +7,7 @@ import online.niepowazni.scoreboard.dto.TeamPair;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class ScoreBoardImpl implements ScoreBoard {
 
@@ -14,14 +15,14 @@ public class ScoreBoardImpl implements ScoreBoard {
 
     @Override
     public List<GameDto> getSummary() {
-        return games.stream()
+        return getSortedGames()
                 .map(Game::toGameDto)
                 .toList();
     }
 
     @Override
     public String formattedSummary() {
-        List<String> immutableLines = games.stream()
+        List<String> immutableLines = getSortedGames()
                 .map(Game::formatted)
                 .toList();
         List<String> lines = new ArrayList<>(immutableLines);
@@ -52,5 +53,10 @@ public class ScoreBoardImpl implements ScoreBoard {
                 .stream()
                 .filter(game -> game.isMatchBetween(teams.home(), teams.away()))
                 .forEach(game -> game.setScore(score));
+    }
+
+    private Stream<Game> getSortedGames() {
+        return games.stream()
+                .sorted();
     }
 }

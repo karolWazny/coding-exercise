@@ -12,7 +12,7 @@ import java.util.Objects;
 @Getter
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Game {
+public class Game implements Comparable<Game> {
 
     final String homeTeam;
     final String awayTeam;
@@ -21,7 +21,10 @@ public class Game {
     int awayScore;
 
     public String formatted() {
-        return "%s 0 - %s 0".formatted(homeTeam, awayTeam);
+        return "%s %d - %s %d".formatted(homeTeam,
+                homeScore,
+                awayTeam,
+                awayScore);
     }
 
     public void setScore(Score score) {
@@ -40,5 +43,14 @@ public class Game {
                 .homeTeamScore(homeScore)
                 .awayTeamScore(awayScore)
                 .build();
+    }
+
+    @Override
+    public int compareTo(Game o) {
+        return o.totalScore() - this.totalScore();
+    }
+
+    private int totalScore() {
+        return homeScore + awayScore;
     }
 }

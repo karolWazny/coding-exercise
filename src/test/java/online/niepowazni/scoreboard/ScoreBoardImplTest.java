@@ -116,4 +116,66 @@ public class ScoreBoardImplTest {
         String summary = scoreBoard.formattedSummary();
         Assertions.assertEquals("1. Poland 0 - Germany 0\n2. Sweden 0 - Denmark 0", summary);
     }
+
+    @Test
+    @DisplayName("Formatted summary is sorted by total score")
+    public void formattedSummarySortedByScore() {
+        scoreBoard.startGame("Poland", "Germany");
+        scoreBoard.startGame("Sweden", "Denmark");
+        scoreBoard.startGame("England", "Scotland");
+        scoreBoard.updateScore(TeamPair.builder()
+                        .home("Sweden")
+                        .away("Denmark")
+                        .build(),
+                Score.builder()
+                        .home(1)
+                        .away(1)
+                        .build());
+        String summary = scoreBoard.formattedSummary();
+        Assertions.assertEquals("1. Sweden 1 - Denmark 1\n2. Poland 0 - Germany 0\n3. England 0 - Scotland 0", summary);
+    }
+
+    @Test
+    @DisplayName("API summary is sorted by total score")
+    public void summarySortedByScore() {
+        // given
+        scoreBoard.startGame("Poland", "Germany");
+        scoreBoard.startGame("Sweden", "Denmark");
+        scoreBoard.startGame("England", "Scotland");
+
+        // when
+        scoreBoard.updateScore(TeamPair.builder()
+                        .home("Sweden")
+                        .away("Denmark")
+                        .build(),
+                Score.builder()
+                        .home(2)
+                        .away(1)
+                        .build());
+
+        // then
+        Assertions.assertEquals(
+                List.of(
+                        GameDto.builder()
+                                .homeTeam("Sweden")
+                                .homeTeamScore(2)
+                                .awayTeam("Denmark")
+                                .awayTeamScore(1)
+                                .build(),
+                        GameDto.builder()
+                                .homeTeam("Poland")
+                                .homeTeamScore(0)
+                                .awayTeam("Germany")
+                                .awayTeamScore(0)
+                                .build(),
+                        GameDto.builder()
+                                .homeTeam("England")
+                                .homeTeamScore(0)
+                                .awayTeam("Scotland")
+                                .awayTeamScore(0)
+                                .build()
+                ),
+                scoreBoard.getSummary()
+        );
+    }
 }
