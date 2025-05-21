@@ -197,4 +197,35 @@ public class InMemoryScoreBoardTest {
            scoreBoard.startGame("Germany", "England");
         });
     }
+
+    @DisplayName("Using a null team does not cause the code to throw")
+    @Test
+    public void nullTeamDoesNotThrow() {
+        Assertions.assertDoesNotThrow(() -> {
+            scoreBoard.startGame(null,"Germany");
+            scoreBoard.startGame("Sweden", "Denmark");
+            scoreBoard.finishGame(null, "Germany");
+            scoreBoard.startGame("England", null);
+            scoreBoard.updateScore(TeamPair.builder()
+                            .home("England")
+                            .build(),
+                    Score.builder()
+                            .home(3)
+                            .away(2)
+                            .build()
+                    );
+        });
+        Assertions.assertEquals(List.of(
+                GameDto.builder()
+                        .homeTeam("England")
+                        .homeTeamScore(3)
+                        .awayTeamScore(2)
+                        .build(),
+                GameDto.builder()
+                        .homeTeam("Sweden")
+                        .awayTeam("Denmark")
+                        .build()
+        ), scoreBoard.getSummary());
+        Assertions.assertEquals("1. England 3 - null 2\n2. Sweden 0 - Denmark 0", scoreBoard.formattedSummary());
+    }
 }
