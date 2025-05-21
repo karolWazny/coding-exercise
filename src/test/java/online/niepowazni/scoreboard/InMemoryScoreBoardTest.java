@@ -178,4 +178,23 @@ public class InMemoryScoreBoardTest {
                 scoreBoard.getSummary()
         );
     }
+
+    @DisplayName("Adding the same team to a different match should throw")
+    @Test
+    public void addingTheSameTeamTwiceThrows() {
+        Assertions.assertThrows(IllegalStateException.class, () -> {
+           scoreBoard.startGame("Poland", "Germany");
+           scoreBoard.startGame("Germany", "England");
+        });
+    }
+
+    @DisplayName("Team can play two games in a row")
+    @Test
+    public void addingTheSameTeamAfterFinishedGameDoesNotThrow() {
+        Assertions.assertDoesNotThrow(() -> {
+           scoreBoard.startGame("Poland", "Germany");
+           scoreBoard.finishGame("Poland", "Germany");
+           scoreBoard.startGame("Germany", "England");
+        });
+    }
 }
