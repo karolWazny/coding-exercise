@@ -4,7 +4,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
-import online.niepowazni.scoreboard.dto.GameDto;
 import online.niepowazni.scoreboard.dto.Score;
 
 import java.util.Objects;
@@ -34,15 +33,6 @@ class Game implements Comparable<Game> {
 
     public boolean isMatchBetween(String homeTeam, String awayTeam) {
         return Objects.equals(this.homeTeam, homeTeam) && Objects.equals(this.awayTeam, awayTeam);
-    }
-
-    public GameDto toGameDto() {
-        return GameDto.builder()
-                .awayTeam(awayTeam)
-                .homeTeam(homeTeam)
-                .homeTeamScore(homeScore)
-                .awayTeamScore(awayScore)
-                .build();
     }
 
     @Override

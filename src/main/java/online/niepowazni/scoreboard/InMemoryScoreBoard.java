@@ -16,7 +16,7 @@ class InMemoryScoreBoard implements ScoreBoard {
     @Override
     public List<GameDto> getSummary() {
         return getSortedGames()
-                .map(Game::toGameDto)
+                .map(InMemoryScoreBoard::mapToGameDto)
                 .toList();
     }
 
@@ -58,5 +58,14 @@ class InMemoryScoreBoard implements ScoreBoard {
     private Stream<Game> getSortedGames() {
         return games.stream()
                 .sorted();
+    }
+
+    private static GameDto mapToGameDto(Game game) {
+        return GameDto.builder()
+                .awayTeam(game.getAwayTeam())
+                .homeTeam(game.getHomeTeam())
+                .homeTeamScore(game.getHomeScore())
+                .awayTeamScore(game.getAwayScore())
+                .build();
     }
 }
