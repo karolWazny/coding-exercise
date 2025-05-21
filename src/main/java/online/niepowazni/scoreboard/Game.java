@@ -10,7 +10,6 @@ import online.niepowazni.scoreboard.dto.Score;
 import java.util.Objects;
 
 @Getter
-@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 class Game implements Comparable<Game> {
 
@@ -19,6 +18,15 @@ class Game implements Comparable<Game> {
 
     int homeScore;
     int awayScore;
+
+    @Builder
+    private Game(String homeTeam, String awayTeam) {
+        if (Objects.equals(homeTeam, awayTeam)) {
+            throw new IllegalStateException("A team cannot play against itself!");
+        }
+        this.homeTeam = homeTeam;
+        this.awayTeam = awayTeam;
+    }
 
     public String formatted() {
         return "%s %d - %s %d".formatted(homeTeam,

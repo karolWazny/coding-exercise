@@ -32,4 +32,15 @@ public class GameTest {
                 .build();
         Assertions.assertEquals("%s 0 - %s 0".formatted(homeTeam, awayTeam), game.formatted());
     }
+
+    @DisplayName("Team cannot play against itself")
+    @Test
+    public void teamCannotPlayAgainstItself() {
+        Assertions.assertThrows(IllegalStateException.class, () -> {
+            Game.builder()
+                    .homeTeam("Poland")
+                    .awayTeam("Poland")
+                    .build();
+        });
+    }
 }
