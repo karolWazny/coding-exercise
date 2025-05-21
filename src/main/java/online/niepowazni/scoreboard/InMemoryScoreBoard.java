@@ -5,6 +5,7 @@ import online.niepowazni.scoreboard.dto.Score;
 import online.niepowazni.scoreboard.dto.TeamPair;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.IntStream;
@@ -12,7 +13,7 @@ import java.util.stream.Stream;
 
 class InMemoryScoreBoard implements ScoreBoard {
 
-    private final List<Game> games = new ArrayList<>();
+    private final List<Game> games = new LinkedList<>();
 
     @Override
     public List<GameDto> getSummary() {
